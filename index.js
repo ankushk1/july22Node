@@ -7,7 +7,6 @@ const mongoose = require("./config/mongoose");
 const userRoutes = require('./routes/userRoutes')
 
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/user', userRoutes)
