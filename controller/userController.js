@@ -31,6 +31,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.signin = async (req, res) => {
+
   try {
     const { email, password } = req.body;
     // User is signed up or not
@@ -48,9 +49,13 @@ exports.signin = async (req, res) => {
     }
 
     const { _id, firstname, lastname } = user;
-    const token = jwt.sign({ _id, firstname, lastname }, "secret", {
-      expiresIn: "5h"
-    });
+    const token = jwt.sign(
+      { _id, firstname, lastname },
+      req.app.get("secret"),
+      {
+        expiresIn: "5h"
+      }
+    );
     res.status(200).json({ token, message: "Signin Successfull" });
   } catch (err) {
     return res.status(500).json({ err });

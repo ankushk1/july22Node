@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.get("/test", validateJwt , (req, res) => {
+  console.log(req.body)
   return res.json({message: "test Called"})
 });
 

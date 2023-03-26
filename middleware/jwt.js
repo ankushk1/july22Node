@@ -8,13 +8,12 @@ exports.validateJwt = async (req, res, next) => {
       return res.status(400).json({ message: "Token in required" });
     }
 
-    jwt.verify(token, "secret", function (err, decoded) {
+    jwt.verify(token, req.app.get("secret"), function (err, decoded) {
       if (err) {
         return res.status(400).json({ err });
       }
 
-      console.log(decoded);
-      console.log("Verified");
+      req.body.userId = decoded._id;
       next();
     });
   } catch (err) {

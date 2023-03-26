@@ -5,12 +5,14 @@ const app = express();
 const port = 8000;
 const mongoose = require("./config/mongoose");
 const userRoutes = require('./routes/userRoutes')
+const categoryRoutes = require('./routes/categoryRoutes')
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/user', userRoutes)
-
+app.use('/category', categoryRoutes)
+app.set("secret", "july22ProSecret")
 
 
 // const langArr = ["Java", "C++", "JS", "Python"];
