@@ -6,12 +6,14 @@ const port = 8000;
 const mongoose = require("./config/mongoose");
 const userRoutes = require('./routes/userRoutes')
 const categoryRoutes = require('./routes/categoryRoutes')
+const productRoutes = require('./routes/productRoutes')
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/user', userRoutes)
 app.use('/category', categoryRoutes)
+app.use('/product', productRoutes)
 app.set("secret", "july22ProSecret")
 
 

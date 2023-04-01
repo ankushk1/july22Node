@@ -9,7 +9,11 @@ exports.createCategory = async (req, res) => {
       return res.status(400).json({ message: "Category Already exists" });
     }
 
-    await Category.create(req.body);
+    await Category.create({
+      ...req.body,
+      createdBy: req.body.userId,
+      updatedBy: req.body.userId
+    });
 
     return res.status(200).json({ message: "Category created successfully" });
   } catch (err) {
@@ -23,7 +27,9 @@ exports.getCategories = async (req, res) => {
     // if not found or no categories, return message no categories found
     // return arr of category objects
 
-    const categories = await Category.find();
+    const categories = await Category.find()
+    .populate('createdBy', 'email firstname role')
+    .populate('updatedBy', 'email firstname');
 
     if (!categories.length) {
       return res.status(400).json({
@@ -59,14 +65,12 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-
 exports.deleteCategoryById = async (req, res) => {
   try {
     // Id of the product
     const { id } = req.params;
 
     const category = await Category.findByIdAndDelete(id);
-    console.log(category)
 
     if (!category) {
       return res.status(400).json({
@@ -80,3 +84,32 @@ exports.deleteCategoryById = async (req, res) => {
     return res.status(500).json({ err });
   }
 };
+
+exports.updateCategory = async (req, res) => {
+  try {
+    // Id of the product
+    const { id } = req.params;
+
+    const updatedCategory = await Category.findByIdAndUpdate(id, {
+      $set: {...req.body, updatedBy : req.body.userId}
+    });
+
+    if (!updatedCategory) {
+      return res.status(400).json({
+        message: "No category found to update"
+      });
+    }
+
+    return res.status(200).json({
+      message: "Category updated Successfully"
+    });
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
+// Set category isActive to False
+
+// exports.deactivateCategory = async (req, res) => {
+
+// }
