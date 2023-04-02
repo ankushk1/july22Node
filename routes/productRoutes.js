@@ -4,13 +4,15 @@ const {
   getProducts,
   deleteProductById,
   updateProduct,
-  changeQuanity
+  changeQuanity,
+  getProductById
 } = require("../controller/productController");
 const router = express.Router();
 const { validateJwt } = require("../middleware/jwt");
 
 router.post("/createProduct", validateJwt, createProduct);
 router.get("/getProducts", validateJwt, getProducts);
+router.get("/getProductById/:id", validateJwt, getProductById);
 router.delete("/deleteProductById/:id", validateJwt,deleteProductById);
 router.put("/updateProduct/:id", validateJwt, updateProduct);
 router.put("/updateQuantity/:id", validateJwt, changeQuanity);

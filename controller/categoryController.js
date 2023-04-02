@@ -110,6 +110,27 @@ exports.updateCategory = async (req, res) => {
 
 // Set category isActive to False
 
-// exports.deactivateCategory = async (req, res) => {
+exports.deactivateCategory = async (req, res) => {
+  try {
+    // Id of the product
+    const { id } = req.params;
 
-// }
+    const updatedCategory = await Category.findByIdAndUpdate(id, {
+      $set: {
+        isActive: false
+      }
+    });
+
+    if (!updatedCategory) {
+      return res.status(400).json({
+        message: "No category found to deactivate"
+      });
+    }
+
+    return res.status(200).json({
+      message: "Category deactivated Successfully"
+    });
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+}

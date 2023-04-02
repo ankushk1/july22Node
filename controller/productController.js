@@ -41,6 +41,28 @@ exports.getProducts = async (req, res) => {
   }
 };
 
+exports.getProductById = async (req, res) => {
+  try {
+    // Id of the product
+    const { id } = req.params;
+    const product = await Product.findById(id)
+      .populate("category", "name description")
+      .populate("createdBy", "email firstname role")
+      .populate("updatedBy", "email firstname");
+
+    if (!product) {
+      return res.status(400).json({
+        message: "No product found "
+      });
+    }
+    return res.status(200).json({
+      product
+    });
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
 exports.deleteProductById = async (req, res) => {
   try {
     // Id of the product
